@@ -148,6 +148,6 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_allow_vpn" {
   protocol          = "tcp"
   port_range_min    = 22
   port_range_max    = 22
-  remote_group_id   = "${module.vpn-server.security_group_id}"
+  remote_group_id   = "${var.vpn_secgroup_id}"
   security_group_id = "${openstack_networking_secgroup_v2.secgroup_node.id}"
 }

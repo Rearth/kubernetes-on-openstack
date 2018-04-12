@@ -70,3 +70,7 @@ variable bootstrap_token {
     type = "string"
     default = ""
 }
+
+variable vpn_secgroup_id {
+  type = "string"
+}
