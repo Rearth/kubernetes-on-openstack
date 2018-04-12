@@ -11,3 +11,18 @@ kubectl config set-context --cluster=${var.cluster_name} --user=${var.username} 
 kubectl config use-context ${var.username}
     login
 }
+
+output "network_id" {
+  description = "Network id of the Network"
+  value       = "${openstack_networking_network_v2.private.id}"
+}
+
+output "router_id" {
+  description = "Router id"
+  value       = "${openstack_networking_router_v2.cluster_router.id}"
+}
+
+output "router_interface_id" {
+  description = "Router interface id"
+  value       = "${openstack_networking_router_interface_v2.cluster_subnet_interface.id}"
+}
