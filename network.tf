@@ -141,3 +141,13 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_allow_https" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${data.openstack_networking_secgroup_v2.default.id}"
 }
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_allow_vpn" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 22
+  port_range_max    = 22
+  remote_group_id   = "${module.vpn-server.security_group_id}"
+  security_group_id = "${openstack_networking_secgroup_v2.secgroup_node.id}"
+}
