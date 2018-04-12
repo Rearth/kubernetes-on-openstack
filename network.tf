@@ -32,6 +32,10 @@ resource "openstack_networking_router_interface_v2" "cluster_subnet_interface" {
 
 resource "openstack_networking_floatingip_v2" "public_ip" {
   pool = "${data.openstack_networking_network_v2.public.name}"
+
+  provisioner "local-exec" {
+    command = "kubectl config set-cluster --insecure-skip-tls-verify=true --server='https://${openstack_networking_floatingip_v2.public_ip.address}:6443' ${var.cluster_name} && kubectl config set-credentials ${var.username} --auth-provider=openstack && kubectl config set-context --cluster=${var.cluster_name} --user=${var.username}  ${var.username} && kubectl config use-context ${var.username}"
+  }
 }
 
 resource "openstack_compute_floatingip_associate_v2" "master" {
@@ -102,7 +106,7 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_node_rule_heapster" {
 resource "openstack_networking_secgroup_rule_v2" "secgroup_node_rule_allow_inside" {
   direction         = "ingress"
   ethertype         = "IPv4"
-  protocol          = "null"
+  protocol          = ""
   remote_group_id   = "${openstack_networking_secgroup_v2.secgroup_node.id}"
   security_group_id = "${openstack_networking_secgroup_v2.secgroup_node.id}"
 }
@@ -137,4 +141,3 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_allow_https" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = "${data.openstack_networking_secgroup_v2.default.id}"
 }
-

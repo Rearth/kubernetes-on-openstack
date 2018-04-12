@@ -7,6 +7,7 @@ provider "openstack" {
   password    = "${var.password}"
   auth_url    = "${var.auth_url}"
   region      = "${var.region}"
+  tenant_name = "${var.tenant_name}"
 }
 
 resource "openstack_compute_keypair_v2" "basic_keypair" {
@@ -30,6 +31,7 @@ data "template_file" "master_init" {
     subnet_id           = "${openstack_networking_subnet_v2.cluster_subnet.id}"
     external_ip         = "${openstack_networking_floatingip_v2.public_ip.address}"
     kubernetes_version  = "${var.kubernetes_version}"
+    kubeversion         = "${var.kubeversion}"
     pod_subnet          = "${var.pod_subnet}"
     public_network_id   = "${data.openstack_networking_network_v2.public.id}"
     auth_url            = "${var.auth_url}"
@@ -65,6 +67,7 @@ resource "openstack_compute_instance_v2" "master" {
   network {
     uuid          = "${openstack_networking_network_v2.private.id}"
   }
+
 }
 
 data "template_file" "node_init" {
@@ -81,6 +84,7 @@ data "template_file" "node_init" {
     auth_url            = "${var.auth_url}"
     domain_name         = "${var.domain_name}"
     node_security_group = "${openstack_networking_secgroup_v2.secgroup_node.id}"
+    kubeversion         = "${var.kubeversion}"
   }
 }
 

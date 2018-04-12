@@ -175,7 +175,6 @@ write_files:
         kubeProxy:
           config:
             mode: ipvs
-            featureGates: SupportIPVSProxyMode=true
 
         featureGates:
           CoreDNS: true
@@ -298,9 +297,9 @@ write_files:
     permissions: '0600'
 packages:
   - nfs-common
-  - kubelet
-  - kubeadm
-  - kubectl
+  - [kubelet, ${kubeversion}]
+  - [kubeadm, ${kubeversion}]
+  - [kubectl, ${kubeversion}]
   - jq
   - ipvsadm
   - [docker-ce, 17.03.2~ce-0~ubuntu-xenial]

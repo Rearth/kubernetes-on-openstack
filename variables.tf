@@ -10,6 +10,10 @@ variable domain_name {
     type = "string"
 }
 
+variable tenant_name {
+    type = "string"
+}
+
 variable project_id {
     type = "string"
 }
@@ -48,7 +52,12 @@ variable node_count {
 
 variable kubernetes_version {
     type = "string"
-    default = "v1.9.3"
+    default = "v1.9.6"
+}
+
+variable kubeversion {
+    type = "string"
+    default = "1.9.6-00"
 }
 
 variable pod_subnet {
