@@ -8,15 +8,17 @@ Create a `main.tf` with the following content (obviously set the variables to yo
 
 ```hcl
 module "my_cluster" {
-  source = "git::https://github.com/johscheuer/kubernetes-on-openstack.git?ref=v0.0.1"
+  source = "git::https://github.com/johscheuer/kubernetes-on-openstack.git"
 
-  auth_url      = "auth_url"
-  cluster_name  = "cluster_name"
-  username      = "username"
-  password      = "password"
-  domain_name   = "domain_name"
-  project_id    = "project_id"
-  image_name    = "image_name"
+  auth_url     = "${var.auth_url}"
+  cluster_name = "${var.cluster_name}"
+  username     = "${var.username}"
+  password     = "${var.password}"
+  domain_name  = "${var.domain_name}"
+  project_id   = "${var.project_id}"
+  image_name   = "${var.image_name}"
+  kubeversion  = "${var.kubeversion}"
+  tenant_name  = "${var.tenant_name}"
 }
 ```
 
