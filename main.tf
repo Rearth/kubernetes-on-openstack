@@ -56,7 +56,7 @@ resource "openstack_compute_instance_v2" "master" {
   image_id        = "${data.openstack_images_image_v2.ubuntu.id}"
   flavor_name     = "${var.flavor}"
   key_pair        = "${openstack_compute_keypair_v2.basic_keypair.id}"
-  security_groups = ["${openstack_networking_secgroup_v2.secgroup_master.id}", "${openstack_networking_secgroup_v2.secgroup_node.id}"]
+  security_groups = ["${openstack_networking_secgroup_v2.secgroup_master.name}", "${openstack_networking_secgroup_v2.secgroup_node.name}"]
   user_data       = "${data.template_cloudinit_config.master_config.rendered}"
 
   metadata {
@@ -105,7 +105,7 @@ resource "openstack_compute_instance_v2" "node" {
   image_id        = "${data.openstack_images_image_v2.ubuntu.id}"
   flavor_name     = "${var.flavor}"
   key_pair        = "${openstack_compute_keypair_v2.basic_keypair.id}"
-  security_groups = ["${openstack_networking_secgroup_v2.secgroup_node.id}"]
+  security_groups = ["${openstack_networking_secgroup_v2.secgroup_node.name}"]
   user_data       = "${data.template_cloudinit_config.node_config.rendered}"
 
   metadata {
