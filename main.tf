@@ -29,7 +29,8 @@ data "template_file" "master_init" {
     password            = "${var.password}"
     project_id          = "${var.project_id}"
     subnet_id           = "${openstack_networking_subnet_v2.cluster_subnet.id}"
-    external_ip         = "${openstack_networking_floatingip_v2.public_ip.address}"
+    #external_ip         = "${openstack_compute_instance_v2.master.access_ip_v4}"
+    external_ip         = "${var.master_ip}"
     kubernetes_version  = "${var.kubernetes_version}"
     kubeversion         = "${var.kubeversion}"
     pod_subnet          = "${var.pod_subnet}"
@@ -66,6 +67,7 @@ resource "openstack_compute_instance_v2" "master" {
 
   network {
     uuid          = "${openstack_networking_network_v2.private.id}"
+    fixed_ip_v4 = "${var.master_ip}"
   }
 
 }

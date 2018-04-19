@@ -119,6 +119,19 @@ write_files:
     owner: root:root
     permissions: '0644'
 -   content: |
+        [Service]
+        Environment="KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"
+        Environment="KUBELET_SYSTEM_PODS_ARGS=--pod-manifest-path=/etc/kubernetes/manifests --allow-privileged=true"
+        Environment="KUBELET_DNS_ARGS=--cluster-dns=10.96.0.10 --cluster-domain=cluster.local"
+        Environment="KUBELET_AUTHZ_ARGS=--authorization-mode=Webhook --client-ca-file=/etc/kubernetes/pki/ca.crt"
+        Environment="KUBELET_CADVISOR_ARGS=--cadvisor-port=0"
+        Environment="KUBELET_CERTIFICATE_ARGS=--rotate-certificates=true --cert-dir=/var/lib/kubelet/pki"
+        ExecStart=
+        ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_SYSTEM_PODS_ARGS $KUBELET_NETWORK_ARGS $KUBELET_DNS_ARGS $KUBELET_AUTHZ_ARGS $KUBELET_CADVISOR_ARGS $KUBELET_CERTIFICATE_ARGS $KUBELET_EXTRA_ARGS
+    path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+    owner: root:root
+    permissions: '0644'
+-   content: |
         apiVersion: v1
         clusters:
         - cluster:
@@ -310,6 +323,9 @@ packages:
 # TODO create extra dir with kubernetes addons
 # The addon deployment can be moved out once we have a stable endpoint
 runcmd:
+  - [ sleep, 2 ]
+  - [ systemctl, daemon-reload ]
+  - [ sleep, 10 ]
   - [ kubeadm, init, --config, /etc/kubernetes/kubeadm.yaml, --skip-token-print ]
   - [ mkdir, -p, /root/.kube ]
   - [ cp, -i, /etc/kubernetes/admin.conf, /root/.kube/config ]

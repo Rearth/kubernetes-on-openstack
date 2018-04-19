@@ -38,10 +38,10 @@ resource "openstack_networking_floatingip_v2" "public_ip" {
   }
 }
 
-resource "openstack_compute_floatingip_associate_v2" "master" {
-  floating_ip = "${openstack_networking_floatingip_v2.public_ip.address}"
-  instance_id = "${openstack_compute_instance_v2.master.id}"
-}
+#resource "openstack_compute_floatingip_associate_v2" "master" {
+#  floating_ip = "${openstack_networking_floatingip_v2.public_ip.address}"
+#  instance_id = "${openstack_compute_instance_v2.master.id}"
+#}
 
 ## Security groups for the Kubernetes master
 resource "openstack_networking_secgroup_v2" "secgroup_master" {

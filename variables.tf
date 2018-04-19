@@ -60,6 +60,11 @@ variable kubeversion {
     default = "1.9.6-00"
 }
 
+variable master_ip {
+    type = "string"
+    default = "172.16.0.11"
+}
+
 variable pod_subnet {
     type = "string"
     default = "192.168.0.0/16"
