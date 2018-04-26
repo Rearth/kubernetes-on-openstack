@@ -1,6 +1,6 @@
 # Terraform
 
-Running Kubernetes on OpenStack with `kubeadm` and `terraform`
+Running Kubernetes on OpenStack with `kubeadm` and `terraform`, only accesible with a vpn
 
 ## Using the module
 

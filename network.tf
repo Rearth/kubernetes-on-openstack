@@ -151,3 +151,13 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_allow_vpn" {
   remote_group_id   = "${var.vpn_secgroup_id}"
   security_group_id = "${openstack_networking_secgroup_v2.secgroup_node.id}"
 }
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_rule_allow_dashboard" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 32084
+  port_range_max    = 32084
+  remote_group_id   = "${var.vpn_secgroup_id}"
+  security_group_id = "${openstack_networking_secgroup_v2.secgroup_node.id}"
+}
